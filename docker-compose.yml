@@ -1,0 +1,8 @@
+version: "3"
+services:
+  velnes-go:
+    build:
+      .
+    ports:
+      - 8080:8080
+    entrypoint: go run .
