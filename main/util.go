@@ -1,4 +1,4 @@
-package src
+package main
 
 func validateNews(news news) bool {
 
