@@ -134,26 +134,26 @@ func updateNews(news news) bool {
 
 }
 
-func CheckUserWithLoginExists(login string) bool {
-
-	rows, err := db.Query("select count(*) from users where login = $1", login)
-
-	if err != nil {
-		fmt.Print(err)
-		return true
-	}
-
-	var res int
-
-	defer rows.Close()
-	rows.Next()
-	err = rows.Scan(&res)
-	if err != nil {
-		fmt.Print(err)
-		return false
-	}
-
-}
+//func CheckUserWithLoginExists(login string) bool {
+//
+//	rows, err := db.Query("select count(*) from users where login = $1", login)
+//
+//	if err != nil {
+//		fmt.Print(err)
+//		return true
+//	}
+//
+//	var res int
+//
+//	defer rows.Close()
+//	rows.Next()
+//	err = rows.Scan(&res)
+//	if err != nil {
+//		fmt.Print(err)
+//		return false
+//	}
+//
+//}
 
 func DBConn() {
 
