@@ -14,4 +14,4 @@ COPY src /
 
 RUN go build -v .
 
-EXPOSE 8181
+EXPOSE 8080
