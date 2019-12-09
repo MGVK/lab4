@@ -42,55 +42,52 @@ func GetAllNewsFromDB() []news {
 	}
 
 	defer rows.Close()
-	var news []news
+	var _news []news
 
 	for rows.Next() {
-		w := news{}
+		var w news
 		err := rows.Scan(&w.Id, &w.Url, &w.AuthorID, &w.BlogID, &w.Title, &w.Content)
 		if err != nil {
 			fmt.Print(err)
 			continue
 		}
-		news = append(news, w)
+		_news = append(_news, w)
 	}
-	return news
+	return _news
 }
 
-func GetSectionsFromDB() []section {
-
-	rows, err := db.Query("SELECT * FROM sections")
-	if err != nil {
-		fmt.Print(err)
-		return nil
-	}
-
-	defer rows.Close()
-	var sections []section
-
-	for rows.Next() {
-		t := section{}
-		err := rows.Scan(&t.Id, &t.Name)
-		if err != nil {
-			fmt.Print(err)
-			continue
-		}
-		sections = append(sections, t)
-	}
-
-	return sections
-
-}
+//func GetSectionsFromDB() []section {
+//
+//	rows, err := db.Query("SELECT * FROM sections")
+//	if err != nil {
+//		fmt.Print(err)
+//		return nil
+//	}
+//
+//	defer rows.Close()
+//	var sections []section
+//
+//	for rows.Next() {
+//		t := section{}
+//		err := rows.Scan(&t.Id, &t.Name)
+//		if err != nil {
+//			fmt.Print(err)
+//			continue
+//		}
+//		sections = append(sections, t)
+//	}
+//
+//	return sections
+//
+//}
 
 func addUserToDB(user user) {
 
-	_, err := db.Exec("insert into users VALUES ($1,$2,$3,$4,$5,$6,$7,$8)",
+	_, err := db.Exec("insert into users VALUES ($1,$2,$3,$4,$5)",
 		user.Id,
 		user.Name,
 		user.Login,
 		user.Email,
-		user.Teacher_id,
-		user.Group_id,
-		user.Section_id,
 		user.Phone)
 
 	if err != nil {
@@ -99,7 +96,7 @@ func addUserToDB(user user) {
 
 }
 
-func addNewsToDB(news news) {
+func addNewsToDB(news news) bool {
 
 	_, err := db.Exec("insert into lab4.news VALUES ($1,$2,$3,$4,$5,$6)",
 		news.Id,
@@ -111,6 +108,28 @@ func addNewsToDB(news news) {
 
 	if err != nil {
 		fmt.Print(err)
+		return false
+	} else {
+		return true
+	}
+
+}
+
+func updateNews(news news) bool {
+
+	_, err := db.Exec("update lab4.news set url = $2, authorid = $3, blogid = $4, title = $5, content = $6 where id=$1",
+		news.Id,
+		news.Url,
+		news.AuthorID,
+		news.BlogID,
+		news.Title,
+		news.Content)
+
+	if err != nil {
+		fmt.Print(err)
+		return false
+	} else {
+		return true
 	}
 
 }

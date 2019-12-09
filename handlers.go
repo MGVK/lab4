@@ -43,8 +43,8 @@ func HandlerNews(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
 		{
-			teachers := GetAllNewsFromDB()
-			j, err := json.Marshal(teachers)
+			news := GetAllNewsFromDB()
+			j, err := json.Marshal(news)
 			if err != nil {
 				fmt.Print(err)
 			}
@@ -54,16 +54,20 @@ func HandlerNews(w http.ResponseWriter, r *http.Request) {
 		}
 	case "POST":
 		{
-
-			news := GetAllNewsFromDB()
-			j, err := json.Marshal(news)
+			var news news
+			err := json.NewDecoder(r.Body).Decode(&news)
 			if err != nil {
 				fmt.Print(err)
+				w.WriteHeader(http.StatusBadRequest)
+				return
 			}
-			fmt.Print(w, "teachers...:")
-			_, _ = fmt.Fprintf(w, string(j))
-
-			return
+			if validateNews(news) {
+				updateNews(news)
+			} else {
+				w.WriteHeader(http.StatusBadRequest)
+				fmt.Print(w, response{"News is invalid"})
+				return
+			}
 
 		}
 	case "PUT":
@@ -79,7 +83,7 @@ func HandlerNews(w http.ResponseWriter, r *http.Request) {
 				addNewsToDB(news)
 			} else {
 				w.WriteHeader(http.StatusBadRequest)
-				fmt.Print(w, response{"User is invalid"})
+				fmt.Print(w, response{"News is invalid"})
 				return
 			}
 		}
