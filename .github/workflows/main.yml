@@ -1,0 +1,20 @@
+name: Go
+on: [push]
+jobs:
+
+  build:
+    name: Build
+    runs-on: [self-hosted]
+    steps:
+      - name: chekout
+        uses: actions/checkout@v1
+
+      - name: Stop
+        run: sudo docker-compose stop
+        continue-on-error: true
+
+      - name: build
+        run: sudo docker-compose build
+
+      - name: start
+        run: sudo docker-compose up -d
