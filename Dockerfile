@@ -6,7 +6,7 @@ RUN add-apt-repository -y ppa:longsleep/golang-backports
 
 RUN apt update && apt install -y golang-go git
 
-RUN mkdir src && cd src
+RUN mkdir main && cd main
 
 RUN go get -t github.com/lib/pq
 
