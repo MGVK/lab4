@@ -79,6 +79,7 @@ func HandlerNews(w http.ResponseWriter, r *http.Request) {
 				w.WriteHeader(http.StatusBadRequest)
 				return
 			}
+
 			if validateNews(news) {
 				addNewsToDB(news)
 			} else {

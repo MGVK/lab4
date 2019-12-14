@@ -98,8 +98,7 @@ func addUserToDB(user user) {
 
 func addNewsToDB(news news) bool {
 
-	_, err := db.Exec("insert into lab4.news VALUES ($1,$2,$3,$4,$5,$6)",
-		news.Id,
+	_, err := db.Exec("insert into lab4.news VALUES (default,$1,$2,$3,$4,$5)",
 		news.Url,
 		news.AuthorID,
 		news.BlogID,
@@ -159,7 +158,8 @@ func DBConn() {
 
 	err := error(nil)
 
-	connStr := "postgres://postgres:12345@172.18.0.1:54322/postgres"
+	//connStr := "postgres://postgres:12345@172.18.0.1:54322/postgres"
+	connStr := "postgres://postgres:12345@ec2-3-15-209-228.us-east-2.compute.amazonaws.com:54322/postgres"
 	db, err = sql.Open("postgres", connStr)
 	if err != nil {
 		fmt.Print(err)
