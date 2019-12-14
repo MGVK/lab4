@@ -10,7 +10,7 @@ RUN mkdir main && cd main
 
 RUN go get -t github.com/lib/pq
 
-COPY src /
+COPY main /
 
 RUN go build -v .
 
